@@ -1,0 +1,98 @@
+1. Write a MongoDB query to display all the documents in the collection restaurants. 
+ans
+> db.hotels.find()
+> db.restaurants.find()
+
+2)Write a MongoDB query to display the fields restaurant_id, name, borough and cuisine for all the documents in the collection restaurant. 
+ans)
+> db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"object" :1,"_id":0});
+
+3)Write a MongoDB query to display the fields restaurant_id, name, borough and cuisine for all the documents in the collection restaurant. 
+e, but exclude the field _id for all the documents in the collection restaurant. 
+ans)
+> db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"cuisine" :1});
+
+4)Write a MongoDB query to display the fields restaurant_id, name, borough and zip code, but exclude the field _id for all the documents in the collection restaurant. 
+ans
+db.restaurants.find({},{"restaurant_id" : 1,"name":1,"borough":1,"address.zipcode" :1,"_id":0});
+Output:
+
+{ "address" : { "zipcode" : "10019" }, "borough" : "Manhattan", "name" : "Dj Reynolds Pub And Restaurant", "restaurant_id" : "30191841" }
+{ "address" : { "zipcode" : "10462" }, "borough" : "Bronx", "name" : "Morris Park Bake Shop", "restaurant_id" : "30075445" }
+{ "address" : { "zipcode" : "11224" }, "borough" : "Brooklyn", "name" : "Riviera Caterer", "restaurant_id" : "40356018" }
+{ "address" : { "zipcode" : "11225" }, "borough" : "Brooklyn", "name" : "Wendy'S", "restaurant_id" : "30112340" }
+{ "address" : { "zipcode" : "11374" }, "borough" : "Queens", "name" : "Tov Kosher Kitchen", "restaurant_id" : "40356068" }
+{ "address" : { "zipcode" : "11369" }, "borough" : "Queens", "name" : "Brunos On The Boulevard", "restaurant_id" : "40356151" }
+{ "address" : { "zipcode" : "11219" }, "borough" : "Brooklyn", "name" : "Regina Caterers", "restaurant_id" : "40356649" }
+{ "address" : { "zipcode" : "11234" }, "borough" : "Brooklyn", "name" : "Wilken'S Fine Food", "restaurant_id" : "40356483" }
+{ "address" : { "zipcode" : "10460" }, "borough" : "Bronx", "name" : "Wild Asia", "restaurant_id" : "40357217" }
+{ "address" : { "zipcode" : "11226" }, "borough" : "Brooklyn", "name" : "Taste The Tropics Ice Cream", "restaurant_id" : "40356731" }
+{ "address" : { "zipcode" : "11214" }, "borough" : "Brooklyn", "name" : "C & C Catering Service", "restaurant_id" : "40357437" }
+{ "address" : { "zipcode" : "11208" }, "borough" : "Brooklyn", "name" : "May May Kitchen", "restaurant_id" : "40358429" }
+{ "address" : { "zipcode" : "10065" }, "borough" : "Manhattan", "name" : "1 East 66Th Street Kitchen", "restaurant_id" : "40359480" }
+{ "address" : { "zipcode" : "11223" }, "borough" : "Brooklyn", "name" : "Seuda Foods", "restaurant_id" : "40360045" }
+{ "address" : { "zipcode" : "11414" }, "borough" : "Queens", "name" : "Laquana King", "restaurant_id" : "50003441" }
+{ "address" : { "zipcode" : "11218" }, "borough" : "Brooklyn", "name" : "Carvel Ice Cream", "restaurant_id" : "40360076" }
+{ "address" : { "zipcode" : "11004" }, "borough" : "Queens", "name" : "Carvel Ice Cream", "restaurant_id" : "40361322" }
+{ "address" : { "zipcode" : "11209" }, "borough" : "Brooklyn", "name" : "Nordic Delicacies", "restaurant_id" : "40361390" }
+{ "address" : { "zipcode" : "11215" }, "borough" : "Brooklyn", "name" : "The Movable Feast", "restaurant_id" : "40361606" }
+{ "address" : { "zipcode" : "10021" }, "borough" : "Manhattan", "name" : "Glorious Food", "restaurant_id" : "40361521" }
+Type "it" for more
+
+5) Write a MongoDB query to display all the restaurant which is in the borough Bronx. 
+ans
+
+>db.restaurants.find({"borough": "Bronx"});
+
+6) Write a MongoDB query to display the first 5 restaurant which is in the borough Bronx. 
+ans
+> db.restaurants.find({"borough": "Bronx"}).limit(5);
+
+7).Write a MongoDB query to display the next 5 restaurants after skipping first 5 which are in the borough Bronx.
+ans
+> db.restaurants.find({"borough": "Bronx"}).limit(5).skip(5)
+
+8)Write a MongoDB query to find the restaurants who achieved a score more than 90. 
+ans
+> db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 90}}}});
+
+9) Write a MongoDB query to find the restaurants that achieved a score, more than 80 but less than 100. 
+ans
+> db.restaurants.find({grades : { $elemMatch:{"score":{$gt : 80 , $lt :100}}}});
+
+10)10. Write a MongoDB query to find the restaurants which locate in latitude value less than -95.754168.
+ansdb.restaurants.find({"address.coord" : {$lt : -95.754168}});
+
+12)Write a MongoDB query to find the restaurants which do not prepare any cuisine of 'American' and achieved a score more than 70 and located in the longitude less than -65.754168. Note : Do this query without using $and operator. .
+ans)
+> db.restaurants.find(
+... {
+... "cuisine":{$ne:"American"},
+... "grades.score":{$gt:70},
+... "address.coord":{$lt:-65.754168}
+... }
+... );
+
+11)Write a MongoDB query to find the restaurants which locate in latitude value less than -95.754168.
+ansdb.restaurants.find(
+               {$and:
+                    [
+                       {"cuisine" : {$ne :"American "}},
+                       {"grades.score" : {$gt : 70}},
+                       {"address.coord" : {$lt : -65.754168}}
+                    ]
+                }
+                    );
+
+
+13) Write a MongoDB query to find the restaurants which do not prepare any cuisine of 'American ' and achieved a grade point 'A' not belongs to the borough Brooklyn. The document must be displayed according to the cuisine in descending order.  
+ans
+> db.restaurants.find({"cuisine":{$ne:"American"},"grades.grade":"A","borough":{$ne:"Brooklyn"}}).sort({"cuisine":-1})
+
+14) Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name. 
+ans
+> db.restaurants.find({name:/^wil/},{"restaurant_id":1,"name":1,"borough":1,"cuisine":1});
+
+15) Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'ces' as last three letters for its name. 
+ans
+db.Restaurants_info.find({"name":/ces$/},{"restaurant_id":1,"name":1,"borough":1,"cuisine":1})
